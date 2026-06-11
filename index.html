@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <button type="submit" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-black py-3 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5">
-                    অ্যাকাউন্টে প্রবেশ করুন
+                    <i class="fa-solid fa-right-to-bracket mr-1"></i> অ্যাকাউন্টে প্রবেশ করুন
                 </button>
             </form>
 
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-black py-3 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5">
-                    নতুন অ্যাকাউন্ট খুলুন
+                    <i class="fa-solid fa-user-plus mr-1"></i> নতুন অ্যাকাউন্ট খুলুন
                 </button>
             </form>
         </div>
@@ -101,13 +101,17 @@
                     <div id="stream-offline-notice" class="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center z-20 p-6 text-center backdrop-blur-sm">
                         <div class="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
                         <i class="fa-regular fa-clock text-4xl text-amber-500 mb-2"></i>
-                        <h3 class="text-xl font-bold tracking-wide">م্যাচ এখনো শুরু হয়নি</h3>
+                        <h3 class="text-xl font-bold tracking-wide">ম্যাচ এখনো শুরু হয়নি</h3>
                         <p class="text-gray-400 text-xs mt-1 max-w-sm">অ্যাডমিন লাইভ স্ট্রিম অন করা মাত্রই কোনো প্রকার রিফ্রেশ ছাড়া খেলা স্বয়ংক্রিয়ভাবে প্লে হবে।</p>
                     </div>
                     
-                    <video id="fifa-player" class="video-js vjs-default-skin w-full h-full" controls preload="auto" poster="https://assets.mixkit.co/videos/preview/mixkit-stadium-lights-shining-at-night-42171-large.mp4">
-                        <source id="stream-source" src="" type="application/x-mpegURL">
-                    </video>
+                    <div id="video-wrapper" class="w-full h-full">
+                        <video id="fifa-player" class="video-js vjs-default-skin w-full h-full" controls preload="auto" poster="https://assets.mixkit.co/videos/preview/mixkit-stadium-lights-shining-at-night-42171-large.mp4">
+                            <source id="stream-source" src="" type="application/x-mpegURL">
+                        </video>
+                    </div>
+
+                    <iframe id="any-link-frame" class="w-full h-full absolute inset-0 hidden border-0 z-10 bg-black" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
                 </div>
                 
                 <div class="bg-gray-900/60 border border-gray-800 p-4 rounded-xl flex justify-between items-center backdrop-blur">
@@ -162,8 +166,8 @@
                         <input type="text" id="admin-match-title" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1">লাইভ স্ট্রিমিং সোর্স ইউআরএল (.m3u8 বা HLS লিংক)</label>
-                        <input type="text" id="admin-stream-url" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-amber-500" placeholder="https://domain.com/live/playlist.m3u8">
+                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1">লাইভ স্ট্রিমিং সোর্স ইউআরএল (যেকোনো লিংক - m3u8, ইউটিউব, ফেসবুক বা ওয়েবসাইট)</label>
+                        <input type="text" id="admin-stream-url" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-amber-500" placeholder="https://domain.com/live/playlist.m3u8 বা YT/FB লিংক">
                     </div>
                     <div class="flex items-center space-x-3 bg-gray-900 p-3 rounded-lg border border-gray-800">
                         <input type="checkbox" id="admin-is-live" class="w-4 h-4 accent-amber-500 cursor-pointer">
@@ -184,7 +188,7 @@
                     <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 max-h-40 overflow-y-auto">
                         <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-2">রেজিস্টার্ড গ্রাহক বেস</h3>
                         <div id="admin-users-list" class="space-y-1 text-xs text-amber-400 font-mono">
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -313,7 +317,32 @@
             }
         });
 
-        // Zero-Delay Realtime Engine (Automatic Live Switcher)
+        // Helper function to format embed URLs for YouTube and Facebook
+        function formatEmbedUrl(url) {
+            let cleanUrl = url.trim();
+            
+            // YouTube Handler
+            if (cleanUrl.includes('youtube.com/watch?v=')) {
+                let videoId = cleanUrl.split('v=')[1].split('&')[0];
+                return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            }
+            if (cleanUrl.includes('youtu.be/')) {
+                let videoId = cleanUrl.split('youtu.be/')[1].split('?')[0];
+                return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            }
+            if (cleanUrl.includes('youtube.com/embed/')) {
+                return cleanUrl;
+            }
+
+            // Facebook Video Handler
+            if (cleanUrl.includes('facebook.com/') && (cleanUrl.includes('/videos/') || cleanUrl.includes('/watch/'))) {
+                return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(cleanUrl)}&show_text=0&autoplay=1`;
+            }
+
+            return cleanUrl;
+        }
+
+        // Zero-Delay Realtime Engine (Automatic Live Switcher with Universal Link Support)
         function listenToStreamSettings() {
             onSnapshot(doc(db, "stream_config", "current_match"), (docSnap) => {
                 if (docSnap.exists()) {
@@ -324,17 +353,41 @@
                     document.getElementById('admin-stream-url').value = data.url || "";
                     document.getElementById('admin-is-live').checked = data.isLive || false;
 
+                    const videoWrapper = document.getElementById('video-wrapper');
+                    const iframeElement = document.getElementById('any-link-frame');
+
                     if (data.isLive && data.url) {
                         document.getElementById('stream-offline-notice').classList.add('hidden');
-                        player.src({ src: data.url, type: 'application/x-mpegURL' });
-                        player.ready(function() {
-                            player.play().catch(() => {
-                                console.log("Autoplay context waiting for hardware signal.");
+                        
+                        let targetUrl = data.url.toLowerCase().trim();
+
+                        // Checking if the link is a standard HLS/M3U8 video stream
+                        if (targetUrl.includes('.m3u8') || targetUrl.includes('.mp4')) {
+                            iframeElement.classList.add('hidden');
+                            iframeElement.src = "";
+                            videoWrapper.classList.remove('hidden');
+
+                            player.src({ src: data.url, type: 'application/x-mpegURL' });
+                            player.ready(function() {
+                                player.play().catch(() => {
+                                    console.log("Autoplay context waiting for hardware signal.");
+                                });
                             });
-                        });
+                        } else {
+                            // Universal Link Fallback (YouTube, Facebook, BTV Web page, etc.)
+                            player.pause();
+                            videoWrapper.classList.add('hidden');
+                            iframeElement.classList.remove('hidden');
+                            
+                            // Transform to embed url if it's YT/FB, otherwise use directly
+                            iframeElement.src = formatEmbedUrl(data.url);
+                        }
                     } else {
                         document.getElementById('stream-offline-notice').classList.remove('hidden');
                         player.pause();
+                        iframeElement.classList.add('hidden');
+                        iframeElement.src = "";
+                        videoWrapper.classList.remove('hidden');
                     }
                 }
             });
