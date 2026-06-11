@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-key"></i></span>
                         <input type="password" id="login-pass" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড তৈরি করুন</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড তৈরি করুন</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-lock"></i></span>
                         <input type="password" id="reg-pass" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
@@ -101,8 +101,8 @@
                     <div id="stream-offline-notice" class="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center z-20 p-6 text-center backdrop-blur-sm">
                         <div class="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
                         <i class="fa-regular fa-clock text-4xl text-amber-500 mb-2"></i>
-                        <h3 class="text-xl font-bold tracking-wide">ম্যাচ এখনো শুরু হয়নি</h3>
-                        <p class="text-gray-400 text-xs mt-1 max-w-sm">অ্যাডমিন লাইভ স্ট্রিম অন করা মাত্রই কোনো প্রকার রিফ্রেশ ছাড়া খেলা স্বয়ংক্রিয়ভাবে প্লে হবে।</p>
+                        <h3 class="text-xl font-bold tracking-wide">م্যাচ এখনো শুরু হয়নি</h3>
+                        <p class="text-gray-400 text-xs mt-1 max-w-sm">অ্যাডমিন লাইভ স্ট্রিম অন করা মাত্রই কোনো প্রকার রিফ্রেশ ছাড়া খেলা স্বয়ংক্রিয়ভাবে প্লে হবে।</p>
                     </div>
                     
                     <video id="fifa-player" class="video-js vjs-default-skin w-full h-full" controls preload="auto" poster="https://assets.mixkit.co/videos/preview/mixkit-stadium-lights-shining-at-night-42171-large.mp4">
@@ -178,7 +178,7 @@
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 flex-1 flex flex-col">
                         <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-3">লাইভ ইউজার রিপোর্ট লোগো</h3>
                         <div id="admin-complaints-list" class="space-y-2 text-xs overflow-y-auto max-h-48 pr-2 flex-1">
-                            <p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>
+                            <p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>
                         </div>
                     </div>
                     <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 max-h-40 overflow-y-auto">
@@ -203,7 +203,7 @@
                 <input type="text" id="admin-id-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
-                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">সিক্রেট পাসওয়ার্ড</label>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">সিক্রেট পাসওয়ার্ড</label>
                 <input type="password" id="admin-pass-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
             </div>
             <button onclick="verifyAdminLogin()" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition transform hover:scale-[1.02]">
@@ -213,6 +213,7 @@
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
 
     <script type="module">
         // Google Modular SDK Injections
@@ -278,14 +279,14 @@
                             email: email,
                             registeredAt: new Date().toISOString()
                         });
-                        alert('অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! স্বয়ংক্রিয়ভাবে লগইন হচ্ছে...');
+                        alert('অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! স্বয়ংক্রিয়ভাবে লগইন হচ্ছে...');
                     }).catch(err => alert('রেজিস্ট্রেশন ত্রুটি: ' + err.message));
             } else {
                 const email = document.getElementById('login-email').value;
                 const pass = document.getElementById('login-pass').value;
 
                 signInWithEmailAndPassword(auth, email, pass)
-                    .catch(err => alert('লগইন ব্যর্থ: ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।'));
+                    .catch(err => alert('লগইন ব্যর্থ: ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।'));
             }
         }
 
@@ -351,12 +352,12 @@
                 timestamp: new Date().toISOString()
             }).then(() => {
                 statusDiv.className = "mt-4 text-xs text-center text-emerald-400 block";
-                statusDiv.innerText = "✓ কমপ্লেনটি সফলভাবে অ্যাডমিন ডেস্কে পাঠানো হয়েছে।";
+                statusDiv.innerText = "✓ কমপ্লেনটি সফলভাবে অ্যাডমিন ডেস্কে পাঠানো হয়েছে।";
                 document.getElementById('complaint-text').value = "";
                 setTimeout(() => statusDiv.classList.add('hidden'), 5000);
             }).catch(() => {
                 statusDiv.className = "mt-4 text-xs text-center text-red-500 block";
-                statusDiv.innerText = "✕ রিপোর্ট পাঠাতে সমস্যা হয়েছে। ডাটাবেজ চেক করুন।";
+                statusDiv.innerText = "✕ রিপোর্ট পাঠাতে সমস্যা হয়েছে। ডাটাবেজ চেক করুন।";
             });
         }
 
@@ -370,7 +371,7 @@
                 document.getElementById('admin-panel').classList.remove('hidden');
                 loadAdminData();
             } else {
-                alert('অ্যাক্সেস ডিনাইড: অ্যাডমিন আইডি অথবা পাসওয়ার্ড ভুল!');
+                alert('অ্যাক্সেস ডিনাইড: অ্যাডমিন আইডি অথবা পাসওয়ার্ড ভুল!');
             }
         }
 
@@ -384,7 +385,7 @@
                 title: title,
                 url: url,
                 isLive: isLive
-            }).then(() => alert('সার্ভার আপডেট সফল! সকল একটিভ গ্রাহকদের স্ক্রিনে ম্যাচ চালু হয়েছে।'))
+            }).then(() => alert('সার্ভার আপডেট সফল! সকল একটিভ গ্রাহকদের স্ক্রিনে ম্যাচ চালু হয়েছে।'))
               .catch(err => alert('Firestore write block: ' + err.message));
         }
 
@@ -394,7 +395,7 @@
                 const listContainer = document.getElementById('admin-complaints-list');
                 listContainer.innerHTML = "";
                 if(querySnapshot.empty) {
-                    listContainer.innerHTML = `<p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>`;
+                    listContainer.innerHTML = `<p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>`;
                     return;
                 }
                 querySnapshot.forEach((doc) => {
