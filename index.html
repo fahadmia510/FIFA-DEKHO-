@@ -8,133 +8,182 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
-        body { background-color: #0b0f19; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .premium-gradient { background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%); }
-        .gold-text { color: #f59e0b; }
+        body { background-color: #080c14; color: #ffffff; font-family: 'Segoe UI', Roboto, sans-serif; }
+        .premium-card { background: linear-gradient(145deg, #111827 0%, #0f172a 100%); border: 1px border-color: #1f2937; }
+        .gold-glow { box-shadow: 0 0 15px rgba(245, 158, 11, 0.2); }
+        .gold-border { border-color: #f59e0b; }
         .gold-bg { background-color: #f59e0b; }
+        .gold-text { color: #f59e0b; }
     </style>
 </head>
 <body>
 
-    <nav class="border-b border-gray-800 bg-gray-950 px-6 py-4 flex justify-between items-center">
+    <nav class="border-b border-gray-800 bg-gray-950/80 backdrop-blur px-6 py-4 flex justify-between items-center sticky top-0 z-40">
         <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-trophy gold-text text-2xl"></i>
-            <span class="text-xl font-bold tracking-wider text-white">FIFA <span class="gold-text">LIVE</span></span>
+            <i class="fa-solid fa-trophy gold-text text-2xl animate-bounce"></i>
+            <span class="text-xl font-black tracking-widest text-white uppercase">FIFA <span class="gold-text">DEKHO</span></span>
         </div>
-        <div id="nav-actions" class="flex space-x-4">
-            <button onclick="toggleModal('admin-login-modal')" class="text-xs text-gray-500 hover:text-white transition">Admin System</button>
-            <button id="logout-btn" onclick="logoutUser()" class="hidden bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition">Log Out</button>
+        <div class="flex items-center space-x-4">
+            <button onclick="toggleModal('admin-login-modal')" class="text-xs font-semibold text-gray-500 hover:text-amber-500 transition-all duration-300">
+                <i class="fa-solid fa-lock-open mr-1"></i> Admin Portal
+            </button>
+            <button id="logout-btn" onclick="logoutUser()" class="hidden bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all shadow-lg transform hover:scale-105">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Log Out
+            </button>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto p-4 md:p-8">
+    <main class="max-w-6xl mx-auto p-4 md:p-8 min-h-[85vh] flex flex-col justify-center">
         
-        <div id="auth-section" class="max-w-md mx-auto premium-gradient p-8 rounded-2xl border border-gray-800 shadow-2xl mt-10">
-            <div class="flex justify-center space-x-6 mb-6 border-b border-gray-700 pb-3">
-                <button id="tab-login" onclick="switchAuthTab('login')" class="text-lg font-bold gold-text border-b-2 border-amber-500 pb-1">লগইন</button>
-                <button id="tab-register" onclick="switchAuthTab('register')" class="text-lg font-bold text-gray-400 hover:text-white pb-1">রেজিস্ট্রেশন</button>
+        <div id="auth-section" class="max-w-md w-full mx-auto premium-card p-8 rounded-2xl border border-gray-800 shadow-2xl gold-glow">
+            <div class="flex justify-center space-x-4 mb-8 bg-gray-950 p-1 rounded-xl border border-gray-800">
+                <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 gold-bg text-gray-950 shadow-md">
+                    <i class="fa-solid fa-user-check mr-1"></i> লগইন করুন
+                </button>
+                <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-user-plus mr-1"></i> রেজিস্ট্রেশন
+                </button>
             </div>
 
-            <form id="login-form" onsubmit="handleUserAuth(event, 'login')" class="space-y-4">
+            <form id="login-form" onsubmit="handleUserAuth(event, 'login')" class="space-y-5">
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">ইমেইল অ্যাড্রেস</label>
-                    <input type="email" id="login-email" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">ইমেইল অ্যাড্রেস</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" id="login-email" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">পাসওয়ার্ড</label>
-                    <input type="password" id="login-pass" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-key"></i></span>
+                        <input type="password" id="login-pass" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                    </div>
                 </div>
-                <button type="submit" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-bold py-2.5 rounded-lg transition shadow-lg">প্রবেশ করুন</button>
+                <button type="submit" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-black py-3 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5">
+                    অ্যাকাউন্টে প্রবেশ করুন
+                </button>
             </form>
 
-            <form id="register-form" onsubmit="handleUserAuth(event, 'register')" class="space-y-4 hidden">
+            <form id="register-form" onsubmit="handleUserAuth(event, 'register')" class="space-y-5 hidden">
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">আপনার নাম</label>
-                    <input type="text" id="reg-name" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">আপনার সম্পূর্ণ নাম</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="reg-name" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">ইমেইল অ্যাড্রেস</label>
-                    <input type="email" id="reg-email" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">ইমেইল অ্যাড্রেস</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" id="reg-email" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">পাসওয়ার্ড</label>
-                    <input type="password" id="reg-pass" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড তৈরি করুন</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" id="reg-pass" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                    </div>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition shadow-lg">অ্যাকাউন্ট তৈরি করুন</button>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-black py-3 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5">
+                    নতুন অ্যাকাউন্ট খুলুন
+                </button>
             </form>
         </div>
 
-        <div id="stream-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div id="stream-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
             
             <div class="lg:col-span-2 space-y-4">
                 <div id="player-container" class="relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800 aspect-video flex items-center justify-center">
-                    <div id="stream-offline-notice" class="absolute inset-0 bg-gray-950 flex flex-col items-center justify-center z-10 p-4 text-center">
-                        <i class="fa-regular fa-clock text-5xl text-amber-500 mb-3 animate-pulse"></i>
-                        <h3 class="text-xl font-bold">ম্যাচ এখনো শুরু হয়নি</h3>
-                        <p class="text-gray-400 text-sm mt-1">লাইভ ম্যাচ শুরু হওয়া মাত্রই প্লেয়ারটি অটোমেটিক চালু হয়ে যাবে। অনুগ্রহ করে অপেক্ষা করুন।</p>
+                    
+                    <div id="stream-offline-notice" class="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center z-20 p-6 text-center backdrop-blur-sm">
+                        <div class="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <i class="fa-regular fa-clock text-4xl text-amber-500 mb-2"></i>
+                        <h3 class="text-xl font-bold tracking-wide">ম্যাচ এখনো শুরু হয়নি</h3>
+                        <p class="text-gray-400 text-xs mt-1 max-w-sm">অ্যাডমিন লাইভ স্ট্রিম অন করা মাত্রই কোনো প্রকার রিফ্রেশ ছাড়া খেলা স্বয়ংক্রিয়ভাবে প্লে হবে।</p>
                     </div>
                     
-                    <video id="fifa-player" class="video-js vjs-default-skin w-full h-full" controls preload="auto">
+                    <video id="fifa-player" class="video-js vjs-default-skin w-full h-full" controls preload="auto" poster="https://assets.mixkit.co/videos/preview/mixkit-stadium-lights-shining-at-night-42171-large.mp4">
                         <source id="stream-source" src="" type="application/x-mpegURL">
                     </video>
                 </div>
                 
-                <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex justify-between items-center">
-                    <div>
-                        <span class="bg-red-600 text-white text-xs font-extrabold px-2 py-1 rounded animate-pulse mr-2"><i class="fa-solid fa-circle text-[8px] mr-1 align-middle"></i> LIVE</span>
-                        <h2 id="current-match-title" class="text-lg font-bold inline-block text-white">FIFA Match Loaded</h2>
+                <div class="bg-gray-900/60 border border-gray-800 p-4 rounded-xl flex justify-between items-center backdrop-blur">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-md animate-pulse uppercase flex items-center">
+                            <i class="fa-solid fa-circle text-[6px] mr-1"></i> LIVE
+                        </span>
+                        <h2 id="current-match-title" class="text-md font-bold tracking-wide text-white">FIFA Match Loading...</h2>
                     </div>
-                    <span class="text-sm text-gray-400"><i class="fa-solid fa-eye mr-1 text-amber-500"></i> Premium Access</span>
+                    <span class="text-xs font-semibold text-gray-400 bg-gray-950 border border-gray-800 px-3 py-1.5 rounded-lg">
+                        <i class="fa-solid fa-shield-halved mr-1 gold-text"></i> Premium Member
+                    </span>
                 </div>
             </div>
 
-            <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow-xl flex flex-col h-fit">
-                <h3 class="text-md font-bold mb-3 flex items-center text-amber-500">
-                    <i class="fa-solid fa-circle-exclamation mr-2"></i> লাইভ স্ট্রিম রিপোর্ট / কমপ্লেন বক্স
-                </h3>
-                <p class="text-xs text-gray-400 mb-4">বাফারিং বা কোনো সমস্যা হলে নিচে লিখে আমাদের জানান। অ্যাডমিন প্যানেল সরাসরি এটি মনিটর করছে।</p>
-                <form onsubmit="submitComplaint(event)" class="space-y-3">
-                    <textarea id="complaint-text" required rows="4" placeholder="আপনার সমস্যাটি বিস্তারিত লিখুন (যেমন: ভিডিও চলছেনা, সাউন্ড নাই...)" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-amber-500"></textarea>
-                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold py-2 rounded-lg text-sm transition">কমপ্লেন জমা দিন</button>
-                </form>
-                <div id="complaint-status" class="mt-2 text-xs text-center hidden"></div>
+            <div class="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 shadow-xl flex flex-col justify-between h-full backdrop-blur">
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-wider mb-2 flex items-center text-amber-500">
+                        <i class="fa-solid fa-headset mr-2"></i> লাইভ স্ট্রিম রিপোর্ট সেন্টার
+                    </h3>
+                    <p class="text-xs text-gray-400 leading-relaxed mb-6">খেলা দেখতে কোনো প্রকার সমস্যা (যেমন বাফারিং, নো-সাউন্ড) হলে নিচে বিস্তারিত লিখুন। অ্যাডমিন প্যানেলে এটি সাথে সাথে নোটিফাই হবে।</p>
+                    
+                    <form onsubmit="submitComplaint(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">সমস্যার বিবরণ</label>
+                            <textarea id="complaint-text" required rows="5" placeholder="আপনার কমপ্লেনটি বিস্তারিত এখানে লিখুন..." class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-amber-500 transition resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition duration-300">
+                            রিপোর্ট সাবমিট করুন
+                        </button>
+                    </form>
+                </div>
+                <div id="complaint-status" class="mt-4 text-xs text-center hidden font-bold"></div>
             </div>
         </div>
 
-        <div id="admin-panel" class="hidden premium-gradient p-6 rounded-2xl border border-amber-500/30 shadow-2xl mt-6">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
-                <h2 class="text-xl font-bold text-amber-500"><i class="fa-solid fa-user-shield mr-2"></i> কন্ট্রোল প্যানেল (Admin Area)</h2>
-                <button onclick="closeAdminPanel()" class="bg-gray-800 hover:bg-gray-700 text-white px-3 py-1 rounded-lg text-xs">Exit Admin</button>
+        <div id="admin-panel" class="hidden premium-card p-6 rounded-2xl border gold-border shadow-2xl mt-8">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-4 mb-6">
+                <h2 class="text-md font-black tracking-wider text-amber-500 uppercase">
+                    <i class="fa-solid fa-toolbox mr-2"></i> FIFA DEKHO Control Deck (Admin Area)
+                </h2>
+                <button onclick="closeAdminPanel()" class="bg-gray-800 hover:bg-gray-700 text-white font-bold px-4 py-1.5 rounded-xl text-xs transition">
+                    Exit Panel
+                </button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 space-y-4">
-                    <h3 class="font-bold text-sm text-gray-300 border-b border-gray-800 pb-2">স্ট্রিম কনফিগারেশন</h3>
+                    <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2">স্ট্রিম ইনজেক্টর</h3>
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1">ম্যাচ টাইটেল</label>
-                        <input type="text" id="admin-match-title" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white">
+                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1">ম্যাচ বা টুর্নামেন্ট টাইটেল</label>
+                        <input type="text" id="admin-match-title" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1">লাইভ স্ট্রিমিং URL (.m3u8 বা আইফ্রেম সোর্স লিংক)</label>
-                        <input type="text" id="admin-stream-url" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white" placeholder="https://example.com/live.m3u8">
+                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1">লাইভ স্ট্রিমিং সোর্স ইউআরএল (.m3u8 বা HLS লিংক)</label>
+                        <input type="text" id="admin-stream-url" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-amber-500" placeholder="https://domain.com/live/playlist.m3u8">
                     </div>
-                    <div class="flex items-center space-x-3 py-2">
-                        <input type="checkbox" id="admin-is-live" class="w-4 h-4 accent-amber-500">
-                        <label for="admin-is-live" class="text-sm font-semibold text-red-500">ম্যাচ সরাসরি লাইভ চালু করুন (Automatic Start)</label>
+                    <div class="flex items-center space-x-3 bg-gray-900 p-3 rounded-lg border border-gray-800">
+                        <input type="checkbox" id="admin-is-live" class="w-4 h-4 accent-amber-500 cursor-pointer">
+                        <label for="admin-is-live" class="text-xs font-bold text-red-500 select-none cursor-pointer uppercase tracking-wider">ম্যাচ সরাসরি লাইভ চালু করুন (Automatic Start)</label>
                     </div>
-                    <button onclick="updateStreamSettings()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded text-sm transition">সেটিংস সেভ করুন (Go Live)</button>
+                    <button onclick="updateStreamSettings()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-lg text-xs uppercase tracking-widest transition">
+                        Update Server (Go Live)
+                    </button>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 max-h-60 overflow-y-auto">
-                        <h3 class="font-bold text-sm text-gray-300 border-b border-gray-800 pb-2 mb-3">ইউজার কমপ্লেন সমূহ</h3>
-                        <div id="admin-complaints-list" class="space-y-2 text-xs">
-                            <p class="text-gray-500 italic">কোনো কমপ্লেন রেকর্ড নেই।</p>
+                <div class="flex flex-col space-y-4">
+                    <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 flex-1 flex flex-col">
+                        <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-3">লাইভ ইউজার রিপোর্ট লোগো</h3>
+                        <div id="admin-complaints-list" class="space-y-2 text-xs overflow-y-auto max-h-48 pr-2 flex-1">
+                            <p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>
                         </div>
                     </div>
-                    <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 max-h-40 overflow-y-auto">
-                        <h3 class="font-bold text-sm text-gray-300 border-b border-gray-800 pb-2 mb-3">রেজিস্টার্ড ইউজার ইমেইল লিস্ট</h3>
-                        <div id="admin-users-list" class="space-y-1 text-xs text-amber-400">
+                    <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 max-h-40 overflow-y-auto">
+                        <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-2">রেজিস্টার্ড গ্রাহক বেস</h3>
+                        <div id="admin-users-list" class="space-y-1 text-xs text-amber-400 font-mono">
                             </div>
                     </div>
                 </div>
@@ -143,71 +192,78 @@
 
     </main>
 
-    <div id="admin-login-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50 p-4">
-        <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl max-w-sm w-full space-y-4">
-            <div class="flex justify-between items-center">
-                <h3 class="font-bold text-white">অ্যাডমিন ভেরিফিকেশন</h3>
-                <button onclick="toggleModal('admin-login-modal')" class="text-gray-400 hover:text-white">&times;</button>
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 p-4 backdrop-blur-md">
+        <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl gold-border border">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                <h3 class="font-bold text-sm tracking-wide text-white uppercase"><i class="fa-solid fa-user-shield gold-text mr-1"></i> Admin Authentication</h3>
+                <button onclick="toggleModal('admin-login-modal')" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>
             </div>
             <div>
-                <label class="block text-xs text-gray-400 mb-1">অ্যাডমিন আইডি (Admin ID)</label>
-                <input type="text" id="admin-id-input" class="w-full bg-gray-950 border border-gray-700 rounded p-2 text-sm text-white">
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">অ্যাডমিন আইডি (Admin ID)</label>
+                <input type="text" id="admin-id-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
-                <label class="block text-xs text-gray-400 mb-1">পাসওয়ার্ড</label>
-                <input type="password" id="admin-pass-input" class="w-full bg-gray-950 border border-gray-700 rounded p-2 text-sm text-white">
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">সিক্রেট পাসওয়ার্ড</label>
+                <input type="password" id="admin-pass-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
             </div>
-            <button onclick="verifyAdminLogin()" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-bold py-2 rounded text-sm transition">লগইন অ্যাডমিন</button>
+            <button onclick="verifyAdminLogin()" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition transform hover:scale-[1.02]">
+                প্যানেলে প্রবেশ করুন
+            </button>
         </div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
 
     <script type="module">
-        // Firebase অ্যাপ সার্ভিস এবং রিয়েলটাইম ডেটাবেজ ইমপোর্ট
+        // Google Modular SDK Injections
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
-        // ⚠️ আপনার Firebase কনফিগারেশন এখানে বসান
+        // Verified Configurations matching user environment
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBg8y33p6E8F8-HKIQWGvLicBhiweQue-c",
+            authDomain: "fifa-dekho.firebaseapp.com",
+            projectId: "fifa-dekho",
+            storageBucket: "fifa-dekho.firebasestorage.app",
+            messagingSenderId: "463256178893",
+            appId: "1:463256178893:web:a4b95460b3902b5af59984",
+            measurementId: "G-NYYDXLKH6S"
         };
 
-        // Initialize Firebase
+        // Initialize App & Services
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Global instances
         let player = videojs('fifa-player');
         let currentUserEmail = null;
 
-        // Admin Credentials Hardcoded as requested
+        // Static Security Constants provided by user
         const MASTER_ADMIN_ID = "236533";
         const MASTER_ADMIN_PASS = "fahad236533";
 
-        // Authentication Tab Switcher
+        // Dynamic Registration/Login Form Toggler
         window.switchAuthTab = function(type) {
+            const btnLogin = document.getElementById('tab-login');
+            const btnRegister = document.getElementById('tab-register');
+            const formLogin = document.getElementById('login-form');
+            const formRegister = document.getElementById('register-form');
+
             if(type === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-                document.getElementById('tab-login').className = "text-lg font-bold gold-text border-b-2 border-amber-500 pb-1";
-                document.getElementById('tab-register').className = "text-lg font-bold text-gray-400 hover:text-white pb-1";
+                formLogin.classList.remove('hidden');
+                formRegister.classList.add('hidden');
+                btnLogin.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all gold-bg text-gray-950 shadow-md";
+                btnRegister.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white";
             } else {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-                document.getElementById('tab-register').className = "text-lg font-bold gold-text border-b-2 border-amber-500 pb-1";
-                document.getElementById('tab-login').className = "text-lg font-bold text-gray-400 hover:text-white pb-1";
+                formLogin.classList.add('hidden');
+                formRegister.classList.remove('hidden');
+                btnRegister.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all gold-bg text-gray-950 shadow-md";
+                btnLogin.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white";
             }
         }
 
-        // Handle User Login and Registration
+        // Flawless User Auth Handling
         window.handleUserAuth = function(e, mode) {
             e.preventDefault();
             if(mode === 'register') {
@@ -217,36 +273,35 @@
 
                 createUserWithEmailAndPassword(auth, email, pass)
                     .then((userCredential) => {
-                        // User info stored inside Firebase database
                         setDoc(doc(db, "users", userCredential.user.uid), {
                             name: name,
                             email: email,
                             registeredAt: new Date().toISOString()
                         });
-                        alert('অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!');
-                    }).catch(err => alert('ভুল: ' + err.message));
+                        alert('অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! স্বয়ংক্রিয়ভাবে লগইন হচ্ছে...');
+                    }).catch(err => alert('রেজিস্ট্রেশন ত্রুটি: ' + err.message));
             } else {
                 const email = document.getElementById('login-email').value;
                 const pass = document.getElementById('login-pass').value;
 
                 signInWithEmailAndPassword(auth, email, pass)
-                    .catch(err => alert('লগইন ব্যর্থ: ইমেইল বা পাসওয়ার্ড ভুল।'));
+                    .catch(err => alert('লগইন ব্যর্থ: ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।'));
             }
         }
 
-        // Log out User
+        // Secure Logout Execution
         window.logoutUser = function() {
             signOut(auth);
         }
 
-        // Check Auth State
+        // Gatekeeper Authentication Monitor
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUserEmail = user.email;
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('stream-section').classList.remove('hidden');
                 document.getElementById('logout-btn').classList.remove('hidden');
-                listenToStreamSettings(); // Realtime Synchronization
+                listenToStreamSettings(); 
             } else {
                 currentUserEmail = null;
                 document.getElementById('auth-section').classList.remove('hidden');
@@ -257,14 +312,13 @@
             }
         });
 
-        // Realtime Stream Setup (AUTOMATIC START MECHANISM)
+        // Zero-Delay Realtime Engine (Automatic Live Switcher)
         function listenToStreamSettings() {
             onSnapshot(doc(db, "stream_config", "current_match"), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    document.getElementById('current-match-title').innerText = data.title || "FIFA Live Match";
+                    document.getElementById('current-match-title').innerText = data.title || "FIFA Match Server Online";
                     
-                    // Admin settings inputs updated dynamically
                     document.getElementById('admin-match-title').value = data.title || "";
                     document.getElementById('admin-stream-url').value = data.url || "";
                     document.getElementById('admin-is-live').checked = data.isLive || false;
@@ -273,8 +327,8 @@
                         document.getElementById('stream-offline-notice').classList.add('hidden');
                         player.src({ src: data.url, type: 'application/x-mpegURL' });
                         player.ready(function() {
-                            player.play().catch(error => {
-                                console.log("Autoplay blocked by browser policy, awaiting interaction.");
+                            player.play().catch(() => {
+                                console.log("Autoplay context waiting for hardware signal.");
                             });
                         });
                     } else {
@@ -285,7 +339,7 @@
             });
         }
 
-        // Submit Complaint Box System
+        // Premium Instant Complaint Delivery Subsystem
         window.submitComplaint = function(e) {
             e.preventDefault();
             const text = document.getElementById('complaint-text').value;
@@ -296,17 +350,17 @@
                 message: text,
                 timestamp: new Date().toISOString()
             }).then(() => {
-                statusDiv.className = "mt-2 text-xs text-center text-emerald-400 block";
-                statusDiv.innerText = "আপনার কমপ্লেনটি সফলভাবে অ্যাডমিনের কাছে পাঠানো হয়েছে।";
+                statusDiv.className = "mt-4 text-xs text-center text-emerald-400 block";
+                statusDiv.innerText = "✓ কমপ্লেনটি সফলভাবে অ্যাডমিন ডেস্কে পাঠানো হয়েছে।";
                 document.getElementById('complaint-text').value = "";
-                setTimeout(() => statusDiv.classList.add('hidden'), 4000);
+                setTimeout(() => statusDiv.classList.add('hidden'), 5000);
             }).catch(() => {
-                statusDiv.className = "mt-2 text-xs text-center text-red-400 block";
-                statusDiv.innerText = "কমপ্লেন পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।";
+                statusDiv.className = "mt-4 text-xs text-center text-red-500 block";
+                statusDiv.innerText = "✕ রিপোর্ট পাঠাতে সমস্যা হয়েছে। ডাটাবেজ চেক করুন।";
             });
         }
 
-        // Verify Admin Credentials
+        // Hardcoded Master Admin Validator System
         window.verifyAdminLogin = function() {
             const id = document.getElementById('admin-id-input').value;
             const pass = document.getElementById('admin-pass-input').value;
@@ -316,11 +370,11 @@
                 document.getElementById('admin-panel').classList.remove('hidden');
                 loadAdminData();
             } else {
-                alert('ভুল অ্যাডমিন আইডি অথবা পাসওয়ার্ড!');
+                alert('অ্যাক্সেস ডিনাইড: অ্যাডমিন আইডি অথবা পাসওয়ার্ড ভুল!');
             }
         }
 
-        // Admin Updates Control Room Backend
+        // Admin Stream Remote Controller
         window.updateStreamSettings = function() {
             const title = document.getElementById('admin-match-title').value;
             const url = document.getElementById('admin-stream-url').value;
@@ -330,36 +384,35 @@
                 title: title,
                 url: url,
                 isLive: isLive
-            }).then(() => alert('লাইভ স্ট্রিম ডেটা আপডেট হয়েছে! ইউজারদের স্ক্রিনে অটো-প্লে স্টার্ট হবে।'))
-              .catch(err => alert('Error updating settings: ' + err.message));
+            }).then(() => alert('সার্ভার আপডেট সফল! সকল একটিভ গ্রাহকদের স্ক্রিনে ম্যাচ চালু হয়েছে।'))
+              .catch(err => alert('Firestore write block: ' + err.message));
         }
 
-        // Admin Area: Fetch Complaints & Registered Users
+        // Central Control Telemetry Data Streamer
         function loadAdminData() {
-            // Fetch Complaints Realtime
             onSnapshot(collection(db, "complaints"), (querySnapshot) => {
                 const listContainer = document.getElementById('admin-complaints-list');
                 listContainer.innerHTML = "";
                 if(querySnapshot.empty) {
-                    listContainer.innerHTML = `<p class="text-gray-500 italic">কোনো কমপ্লেন রেকর্ড নেই।</p>`;
+                    listContainer.innerHTML = `<p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>`;
                     return;
                 }
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     const item = document.createElement('div');
-                    item.className = "bg-gray-900 p-2 rounded border border-gray-800 space-y-1 mb-2";
-                    item.innerHTML = `<strong>${data.user}:</strong> <p class="text-gray-300 mt-1">${data.message}</p>`;
+                    item.className = "bg-gray-900 p-2.5 rounded-xl border border-gray-800 mb-2";
+                    item.innerHTML = `<span class="text-amber-500 font-bold">${data.user}:</span> <p class="text-gray-300 mt-0.5 text-xs">${data.message}</p>`;
                     listContainer.appendChild(item);
                 });
             });
 
-            // Fetch User Base
             getDocs(collection(db, "users")).then((querySnapshot) => {
                 const userList = document.getElementById('admin-users-list');
                 userList.innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     const p = document.createElement('p');
-                    p.innerText = `• ${doc.data().email}`;
+                    p.className = "py-0.5 border-b border-gray-900 text-gray-400";
+                    p.innerText = `» ${doc.data().email}`;
                     userList.appendChild(p);
                 });
             });
@@ -369,7 +422,6 @@
             document.getElementById('admin-panel').classList.add('hidden');
         }
 
-        // Basic UI Modal Trigger
         window.toggleModal = function(id) {
             const el = document.getElementById(id);
             el.classList.contains('hidden') ? el.classList.remove('hidden') : el.classList.add('hidden');
