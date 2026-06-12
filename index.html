@@ -7,106 +7,160 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    
     <style>
-        body { background-color: #080c14; color: #ffffff; font-family: 'Segoe UI', Roboto, sans-serif; }
-        .premium-card { background: linear-gradient(145deg, #111827 0%, #0f172a 100%); border: 1px border-color: #1f2937; }
-        .gold-glow { box-shadow: 0 0 15px rgba(245, 158, 11, 0.2); }
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Orbitron:wght@500;800;900&display=swap');
+
+        body { 
+            background: radial-gradient(circle at 50% 0%, #0d1527 0%, #05070f 100%); 
+            color: #ffffff; 
+            font-family: 'Hind Siliguri', 'Segoe UI', Roboto, sans-serif; 
+        }
+        
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Luxury Premium Glassmorphism Cards */
+        .premium-card { 
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%); 
+            border: 1px solid rgba(245, 158, 11, 0.15); 
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .premium-card:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 25px 50px rgba(245, 158, 11, 0.1);
+        }
+
+        /* Gold Neon Glowing Effects */
+        .gold-glow { 
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25); 
+        }
+        
+        .gold-text-glow {
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+
         .gold-border { border-color: #f59e0b; }
-        .gold-bg { background-color: #f59e0b; }
+        .gold-bg { background: linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%); }
         .gold-text { color: #f59e0b; }
+
+        /* Custom Scrollbar for Luxury UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <nav class="border-b border-gray-800 bg-gray-950/80 backdrop-blur px-6 py-4 flex justify-between items-center sticky top-0 z-40">
-        <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-trophy gold-text text-2xl animate-bounce"></i>
-            <span class="text-xl font-black tracking-widest text-white uppercase">FIFA <span class="gold-text">DEKHO</span></span>
+    <nav class="border-b border-amber-500/10 bg-gray-950/70 backdrop-blur-xl px-6 py-4 flex justify-between items-center sticky top-0 z-40 transition-all">
+        <div class="flex items-center space-x-3 group">
+            <div class="bg-amber-500/10 p-2 rounded-xl border border-amber-500/20 group-hover:border-amber-500/50 transition duration-300">
+                <i class="fa-solid fa-trophy gold-text text-2xl group-hover:scale-110 transition duration-300"></i>
+            </div>
+            <span class="text-xl font-black tracking-widest text-white uppercase orbitron">FIFA <span class="gold-text gold-text-glow">DEKHO</span></span>
         </div>
         <div class="flex items-center space-x-4">
-            <button onclick="toggleModal('admin-login-modal')" class="text-xs font-semibold text-gray-500 hover:text-amber-500 transition-all duration-300">
-                <i class="fa-solid fa-lock-open mr-1"></i> Admin Portal
+            <button onclick="toggleModal('admin-login-modal')" class="text-xs font-semibold text-gray-400 hover:text-amber-500 transition-all duration-300 flex items-center gap-1 bg-gray-900/50 px-3 py-1.5 rounded-lg border border-gray-800">
+                <i class="fa-solid fa-user-shield text-[10px]"></i> Admin Portal
             </button>
-            <button id="logout-btn" onclick="logoutUser()" class="hidden bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all shadow-lg transform hover:scale-105">
+            <button id="logout-btn" onclick="logoutUser()" class="hidden bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white px-4 py-1.5 rounded-xl text-xs font-bold transition-all shadow-lg shadow-rose-900/30 transform hover:-translate-y-0.5">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i> Log Out
             </button>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto p-4 md:p-8 min-h-[85vh] flex flex-col justify-center">
+    <main class="max-w-7xl mx-auto p-4 md:p-8 min-h-[85vh] flex flex-col justify-center">
         
-        <div id="auth-section" class="max-w-md w-full mx-auto premium-card p-8 rounded-2xl border border-gray-800 shadow-2xl gold-glow">
-            <div class="flex justify-center space-x-4 mb-8 bg-gray-950 p-1 rounded-xl border border-gray-800">
-                <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 gold-bg text-gray-950 shadow-md">
+        <div id="auth-section" class="max-w-md w-full mx-auto premium-card p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl"></div>
+            
+            <div class="flex justify-center space-x-2 mb-8 bg-gray-950/80 p-1.5 rounded-2xl border border-gray-800">
+                <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-3 rounded-xl font-bold text-sm transition-all duration-300 gold-bg text-gray-950 font-black shadow-lg">
                     <i class="fa-solid fa-user-check mr-1"></i> লগইন করুন
                 </button>
-                <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 text-gray-400 hover:text-white">
+                <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-3 rounded-xl font-bold text-sm transition-all duration-300 text-gray-400 hover:text-white">
                     <i class="fa-solid fa-user-plus mr-1"></i> রেজিস্ট্রেশন
                 </button>
             </div>
 
             <form id="login-form" onsubmit="handleUserAuth(event, 'login')" class="space-y-5">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">ইমেইল অ্যাড্রেস</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">ইমেইল অ্যাড্রেস</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" id="login-email" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" id="login-email" required class="w-full bg-gray-950/50 border border-gray-800 rounded-xl pl-11 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition bg-opacity-50">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">পাসওয়ার্ড</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-key"></i></span>
-                        <input type="password" id="login-pass" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500"><i class="fa-solid fa-key"></i></span>
+                        <input type="password" id="login-pass" required class="w-full bg-gray-950/50 border border-gray-800 rounded-xl pl-11 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition">
                     </div>
                 </div>
-                <button type="submit" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-black py-3 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5">
+                <button type="submit" class="w-full gold-bg hover:opacity-90 text-gray-950 font-black py-3.5 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5 font-bold">
                     <i class="fa-solid fa-right-to-bracket mr-1"></i> অ্যাকাউন্টে প্রবেশ করুন
                 </button>
             </form>
 
             <form id="register-form" onsubmit="handleUserAuth(event, 'register')" class="space-y-5 hidden">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">আপনার সম্পূর্ণ নাম</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">আপনার সম্পূর্ণ নাম</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-user"></i></span>
-                        <input type="text" id="reg-name" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="reg-name" required class="w-full bg-gray-950/50 border border-gray-800 rounded-xl pl-11 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">ইমেইল অ্যাড্রেস</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">ইমেইল অ্যাড্রেস</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" id="reg-email" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" id="reg-email" required class="w-full bg-gray-950/50 border border-gray-800 rounded-xl pl-11 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5">পাসওয়ার্ড তৈরি করুন</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">পাসওয়ার্ড তৈরি করুন</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" id="reg-pass" required class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" id="reg-pass" required class="w-full bg-gray-950/50 border border-gray-800 rounded-xl pl-11 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition">
                     </div>
                 </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-black py-3 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5">
+                <button type="submit" class="w-full gold-bg hover:opacity-90 text-gray-950 font-black py-3.5 rounded-xl transition shadow-xl uppercase tracking-wider text-sm transform hover:-translate-y-0.5 font-bold">
                     <i class="fa-solid fa-user-plus mr-1"></i> নতুন অ্যাকাউন্ট খুলুন
                 </button>
             </form>
         </div>
 
-        <div id="stream-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+        <div id="stream-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8 w-full items-start">
             
-            <div class="lg:col-span-2 space-y-4">
-                <div id="player-container" class="relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800 aspect-video flex items-center justify-center">
+            <div class="lg:col-span-2 space-y-5">
+                <div id="player-container" class="relative bg-black rounded-3xl overflow-hidden shadow-2xl border border-amber-500/10 aspect-video flex items-center justify-center group">
                     
-                    <div id="stream-offline-notice" class="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center z-20 p-6 text-center backdrop-blur-sm">
-                        <div class="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                        <i class="fa-regular fa-clock text-4xl text-amber-500 mb-2"></i>
-                        <h3 class="text-xl font-bold tracking-wide">ম্যাচ এখনো শুরু হয়নি</h3>
-                        <p class="text-gray-400 text-xs mt-1 max-w-sm">অ্যাডমিন লাইভ স্ট্রিম অন করা মাত্রই কোনো প্রকার রিফ্রেশ ছাড়া খেলা স্বয়ংক্রিয়ভাবে প্লে হবে।</p>
+                    <div id="stream-offline-notice" class="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center z-20 p-6 text-center backdrop-blur-md">
+                        <div class="relative mb-4">
+                            <div class="w-20 h-20 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
+                            <i class="fa-solid fa-satellite-dish text-2xl text-amber-500 absolute inset-0 flex items-center justify-center animate-pulse"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-wide text-white">ম্যাচ সরাসরি সম্প্রচারের জন্য প্রস্তুত হচ্ছে</h3>
+                        <p class="text-gray-400 text-xs mt-2 max-w-sm leading-relaxed">অ্যাডমিন লাইভ স্ট্রিম চালু করা মাত্রই কোনো প্রকার রিফ্রেশ করা ছাড়াই খেলাটি এখানে সরাসরি উপভোগ করতে পারবেন।</p>
                     </div>
                     
                     <div id="video-wrapper" class="w-full h-full">
-                        <video id="fifa-player" class="video-js vjs-default-skin w-full h-full" controls preload="auto" poster="https://assets.mixkit.co/videos/preview/mixkit-stadium-lights-shining-at-night-42171-large.mp4">
+                        <video id="fifa-player" class="video-js vjs-default-skin w-full h-full" controls preload="auto">
                             <source id="stream-source" src="" type="application/x-mpegURL">
                         </video>
                     </div>
@@ -114,79 +168,99 @@
                     <iframe id="any-link-frame" class="w-full h-full absolute inset-0 hidden border-0 z-10 bg-black" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
                 </div>
                 
-                <div class="bg-gray-900/60 border border-gray-800 p-4 rounded-xl flex justify-between items-center backdrop-blur">
+                <div class="bg-gray-900/40 border border-gray-800/60 p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 backdrop-blur-md shadow-lg">
                     <div class="flex items-center space-x-3">
-                        <span class="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-md animate-pulse uppercase flex items-center">
-                            <i class="fa-solid fa-circle text-[6px] mr-1"></i> LIVE
+                        <span class="bg-gradient-to-r from-red-600 to-rose-600 text-white text-[10px] font-black px-3 py-1.5 rounded-lg animate-pulse uppercase flex items-center tracking-wider shadow-lg shadow-red-900/20">
+                            <i class="fa-solid fa-circle text-[6px] mr-1.5"></i> LIVE NOW
                         </span>
-                        <h2 id="current-match-title" class="text-md font-bold tracking-wide text-white">FIFA Match Loading...</h2>
+                        <h2 id="current-match-title" class="text-lg font-bold tracking-wide text-white gold-text-glow">FIFA Match Loading...</h2>
                     </div>
-                    <span class="text-xs font-semibold text-gray-400 bg-gray-950 border border-gray-800 px-3 py-1.5 rounded-lg">
-                        <i class="fa-solid fa-shield-halved mr-1 gold-text"></i> Premium Member
+                    <span class="text-xs font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-xl flex items-center gap-1.5">
+                        <i class="fa-solid fa-crown text-[10px]"></i> Premium Member Space
                     </span>
                 </div>
             </div>
 
-            <div class="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 shadow-xl flex flex-col justify-between h-full backdrop-blur">
-                <div>
-                    <h3 class="text-sm font-bold uppercase tracking-wider mb-2 flex items-center text-amber-500">
-                        <i class="fa-solid fa-headset mr-2"></i> লাইভ স্ট্রিম রিপোর্ট সেন্টার
-                    </h3>
-                    <p class="text-xs text-gray-400 leading-relaxed mb-6">খেলা দেখতে কোনো প্রকার সমস্যা (যেমন বাফারিং, নো-সাউন্ড) হলে নিচে বিস্তারিত লিখুন। অ্যাডমিন প্যানেলে এটি সাথে সাথে নোটিফাই হবে।</p>
-                    
-                    <form onsubmit="submitComplaint(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">সমস্যার বিবরণ</label>
-                            <textarea id="complaint-text" required rows="5" placeholder="আপনার কমপ্লেনটি বিস্তারিত এখানে লিখুন..." class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-amber-500 transition resize-none"></textarea>
+            <div class="space-y-6 h-full flex flex-col">
+                
+                <div class="bg-gradient-to-br from-sky-600/10 to-blue-600/5 p-6 rounded-3xl border border-sky-500/20 shadow-xl backdrop-blur-md relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-sky-500/5 text-8xl pointer-events-none"><i class="fa-brands fa-telegram"></i></div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-sky-500/10 p-3.5 rounded-2xl border border-sky-500/20 text-sky-400 text-2xl">
+                            <i class="fa-solid fa-headset animate-bounce"></i>
                         </div>
-                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition duration-300">
-                            রিপোর্ট সাবমিট করুন
-                        </button>
-                    </form>
+                        <div>
+                            <h3 class="text-base font-bold text-white mb-1">অ্যাডমিনের সাথে সরাসরি যোগাযোগ</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed">যেকোনো বিজ্ঞাপন, স্পনসরশিপ অথবা জরুরি যেকোনো সমস্যায় সরাসরি আমাদের সাথে টেলিগ্রামে যুক্ত হোন।</p>
+                        </div>
+                    </div>
+                    <a href="https://t.me/borrowusd" target="_blank" class="mt-5 w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition duration-300 flex items-center justify-center gap-2 shadow-lg shadow-sky-500/20 transform hover:-translate-y-0.5">
+                        <i class="fa-brands fa-telegram text-base"></i> Contact via Telegram (@borrowusd)
+                    </a>
                 </div>
-                <div id="complaint-status" class="mt-4 text-xs text-center hidden font-bold"></div>
+
+                <div class="bg-gray-900/30 p-6 rounded-3xl border border-gray-800/80 shadow-xl flex flex-col justify-between backdrop-blur-md flex-1">
+                    <div>
+                        <h3 class="text-sm font-bold uppercase tracking-wider mb-2 flex items-center text-amber-500">
+                            <i class="fa-solid fa-triangle-exclamation mr-2 text-xs"></i> লাইভ স্ট্রিম রিপোর্ট সেন্টার
+                        </h3>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">খেলা দেখতে বাফারিং বা অডিও সংক্রান্ত কোনো সমস্যা হলে নিচে জানান। অ্যাডমিন এটি সাথে সাথে ফিক্স করবেন।</p>
+                        
+                        <form onsubmit="submitComplaint(event)" class="space-y-4">
+                            <div>
+                                <textarea id="complaint-text" required rows="4" placeholder="আপনার সমস্যাটি বিস্তারিত এখানে লিখুন..." class="w-full bg-gray-950/60 border border-gray-800 rounded-2xl p-4 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/20 transition resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full gold-bg hover:opacity-90 text-gray-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider transition duration-300 shadow-xl font-bold">
+                                রিপোর্ট সাবমিট করুন
+                            </button>
+                        </form>
+                    </div>
+                    <div id="complaint-status" class="mt-4 text-xs text-center hidden font-bold"></div>
+                </div>
+
             </div>
         </div>
 
-        <div id="admin-panel" class="hidden premium-card p-6 rounded-2xl border gold-border shadow-2xl mt-8">
+        <div id="admin-panel" class="hidden premium-card p-6 rounded-3xl border border-amber-500/30 shadow-2xl mt-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-[2px] gold-bg"></div>
             <div class="flex justify-between items-center border-b border-gray-800 pb-4 mb-6">
-                <h2 class="text-md font-black tracking-wider text-amber-500 uppercase">
-                    <i class="fa-solid fa-toolbox mr-2"></i> FIFA DEKHO Control Deck (Admin Area)
+                <h2 class="text-sm font-black tracking-wider text-amber-500 uppercase orbitron flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-xs"></i> FIFA DEKHO Control Deck (Admin Area)
                 </h2>
                 <button onclick="closeAdminPanel()" class="bg-gray-800 hover:bg-gray-700 text-white font-bold px-4 py-1.5 rounded-xl text-xs transition">
-                    Exit Panel
+                    Exit Control Deck
                 </button>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 space-y-4">
-                    <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2">স্ট্রিম ইনজেক্টর</h3>
+                <div class="bg-gray-950/60 p-5 rounded-2xl border border-gray-800/80 space-y-4">
+                    <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 flex items-center gap-1"><i class="fa-solid fa-satellite"></i> স্ট্রিম ইনজেক্টর</h3>
                     <div>
-                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1">ম্যাচ বা টুর্নামেন্ট টাইটেল</label>
-                        <input type="text" id="admin-match-title" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1.5">ম্যাচ বা টুর্নামেন্ট টাইটেল</label>
+                        <input type="text" id="admin-match-title" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1">লাইভ স্ট্রিমিং সোর্স ইউআরএল (যেকোনো লিংক - m3u8, ইউটিউব, ফেসবুক বা ওয়েবসাইট)</label>
-                        <input type="text" id="admin-stream-url" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-amber-500" placeholder="https://domain.com/live/playlist.m3u8 বা YT/FB লিংক">
+                        <label class="block text-[11px] text-gray-500 font-bold uppercase mb-1.5">লাইভ স্ট্রিমিং সোর্স ইউআরএল (যেকোনো লিংক - m3u8, ইউটিউব, ফেসবুক বা ওয়েবসাইট)</label>
+                        <input type="text" id="admin-stream-url" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-500" placeholder="https://domain.com/live/playlist.m3u8 বা YT/FB লিংক">
                     </div>
-                    <div class="flex items-center space-x-3 bg-gray-900 p-3 rounded-lg border border-gray-800">
-                        <input type="checkbox" id="admin-is-live" class="w-4 h-4 accent-amber-500 cursor-pointer">
+                    <div class="flex items-center space-x-3 bg-gray-900/40 p-4 rounded-xl border border-gray-800/60">
+                        <input type="checkbox" id="admin-is-live" class="w-4 h-4 accent-amber-500 cursor-pointer rounded">
                         <label for="admin-is-live" class="text-xs font-bold text-red-500 select-none cursor-pointer uppercase tracking-wider">ম্যাচ সরাসরি লাইভ চালু করুন (Automatic Start)</label>
                     </div>
-                    <button onclick="updateStreamSettings()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-lg text-xs uppercase tracking-widest transition">
+                    <button onclick="updateStreamSettings()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs uppercase tracking-widest transition shadow-lg shadow-emerald-900/20">
                         Update Server (Go Live)
                     </button>
                 </div>
 
                 <div class="flex flex-col space-y-4">
-                    <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 flex-1 flex flex-col">
-                        <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-3">লাইভ ইউজার রিপোর্ট লোগো</h3>
+                    <div class="bg-gray-950/60 p-5 rounded-2xl border border-gray-800/80 flex-1 flex flex-col">
+                        <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-3 flex items-center gap-1"><i class="fa-solid fa-headset"></i> লাইভ ইউজার রিপোর্ট লোগো</h3>
                         <div id="admin-complaints-list" class="space-y-2 text-xs overflow-y-auto max-h-48 pr-2 flex-1">
-                            <p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>
+                            <p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>
                         </div>
                     </div>
-                    <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 max-h-40 overflow-y-auto">
-                        <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-2">রেজিস্টার্ড গ্রাহক বেস</h3>
+                    <div class="bg-gray-950/60 p-4 rounded-2xl border border-gray-800/80 max-h-40 overflow-y-auto">
+                        <h3 class="font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-900 pb-2 mb-2 flex items-center gap-1"><i class="fa-solid fa-users text-[10px]"></i> রেজিস্টার্ড গ্রাহক বেস</h3>
                         <div id="admin-users-list" class="space-y-1 text-xs text-amber-400 font-mono">
                         </div>
                     </div>
@@ -196,21 +270,22 @@
 
     </main>
 
-    <div id="admin-login-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 p-4 backdrop-blur-md">
-        <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl gold-border border">
-            <div class="flex justify-between items-center border-b border-gray-800 pb-2">
-                <h3 class="font-bold text-sm tracking-wide text-white uppercase"><i class="fa-solid fa-user-shield gold-text mr-1"></i> Admin Authentication</h3>
-                <button onclick="toggleModal('admin-login-modal')" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50 p-4 backdrop-blur-xl transition-all">
+        <div class="bg-gray-900/90 border border-amber-500/20 p-7 rounded-3xl max-w-sm w-full space-y-5 shadow-2xl relative">
+            <div class="absolute top-0 left-0 w-full h-[2px] gold-bg"></div>
+            <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                <h3 class="font-bold text-xs tracking-wider text-white uppercase orbitron flex items-center gap-1.5"><i class="fa-solid fa-user-shield gold-text"></i> Admin Authentication</h3>
+                <button onclick="toggleModal('admin-login-modal')" class="text-gray-400 hover:text-white text-xl font-bold transition">&times;</button>
             </div>
             <div>
-                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">অ্যাডমিন আইডি (Admin ID)</label>
-                <input type="text" id="admin-id-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1.5">অ্যাডমিন আইডি (Admin ID)</label>
+                <input type="text" id="admin-id-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
-                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">সিক্রেট পাসওয়ার্ড</label>
-                <input type="password" id="admin-pass-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1.5">সিক্রেট পাসওয়ার্ড</label>
+                <input type="password" id="admin-pass-input" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-500">
             </div>
-            <button onclick="verifyAdminLogin()" class="w-full gold-bg hover:bg-amber-600 text-gray-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition transform hover:scale-[1.02]">
+            <button onclick="verifyAdminLogin()" class="w-full gold-bg hover:opacity-90 text-gray-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider transition transform hover:scale-[1.01] font-bold">
                 প্যানেলে প্রবেশ করুন
             </button>
         </div>
@@ -220,12 +295,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
 
     <script type="module">
-        // Google Modular SDK Injections
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
-        // Verified Configurations matching user environment
+        // Infrastructure Configurations
         const firebaseConfig = {
             apiKey: "AIzaSyBg8y33p6E8F8-HKIQWGvLicBhiweQue-c",
             authDomain: "fifa-dekho.firebaseapp.com",
@@ -236,19 +310,24 @@
             measurementId: "G-NYYDXLKH6S"
         };
 
-        // Initialize App & Services
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let player = videojs('fifa-player');
+        let player = videojs('fifa-player', {
+            fluid: true,
+            responsive: true,
+            controlBar: {
+                skipButtons: { forward: 10, backward: 10 }
+            }
+        });
         let currentUserEmail = null;
 
-        // Static Security Constants provided by user
+        // Secure Encryption Keys
         const MASTER_ADMIN_ID = "236533";
         const MASTER_ADMIN_PASS = "fahad236533";
 
-        // Dynamic Registration/Login Form Toggler
+        // Dynamic Auth Tab Switcher
         window.switchAuthTab = function(type) {
             const btnLogin = document.getElementById('tab-login');
             const btnRegister = document.getElementById('tab-register');
@@ -258,17 +337,17 @@
             if(type === 'login') {
                 formLogin.classList.remove('hidden');
                 formRegister.classList.add('hidden');
-                btnLogin.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all gold-bg text-gray-950 shadow-md";
-                btnRegister.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white";
+                btnLogin.className = "w-1/2 py-3 rounded-xl font-bold text-sm transition-all gold-bg text-gray-950 font-black shadow-lg";
+                btnRegister.className = "w-1/2 py-3 rounded-xl font-bold text-sm transition-all text-gray-400 hover:text-white";
             } else {
                 formLogin.classList.add('hidden');
                 formRegister.classList.remove('hidden');
-                btnRegister.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all gold-bg text-gray-950 shadow-md";
-                btnLogin.className = "w-1/2 py-2.5 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white";
+                btnRegister.className = "w-1/2 py-3 rounded-xl font-bold text-sm transition-all gold-bg text-gray-950 font-black shadow-lg";
+                btnLogin.className = "w-1/2 py-3 rounded-xl font-bold text-sm transition-all text-gray-400 hover:text-white";
             }
         }
 
-        // Flawless User Auth Handling
+        // Firebase User Authentication Controller
         window.handleUserAuth = function(e, mode) {
             e.preventDefault();
             if(mode === 'register') {
@@ -283,23 +362,23 @@
                             email: email,
                             registeredAt: new Date().toISOString()
                         });
-                        alert('অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! স্বয়ংক্রিয়ভাবে লগইন হচ্ছে...');
+                        alert('অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! সেশনটি চালু হচ্ছে...');
                     }).catch(err => alert('রেজিস্ট্রেশন ত্রুটি: ' + err.message));
             } else {
                 const email = document.getElementById('login-email').value;
                 const pass = document.getElementById('login-pass').value;
 
                 signInWithEmailAndPassword(auth, email, pass)
-                    .catch(err => alert('লগইন ব্যর্থ: ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।'));
+                    .catch(err => alert('লগইন ব্যর্থ: ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।'));
             }
         }
 
-        // Secure Logout Execution
+        // User Sign-Out Handler
         window.logoutUser = function() {
             signOut(auth);
         }
 
-        // Gatekeeper Authentication Monitor
+        // Realtime Global Auth Observer
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUserEmail = user.email;
@@ -317,11 +396,9 @@
             }
         });
 
-        // Helper function to format embed URLs for YouTube and Facebook
+        // Smart Media Aggregator (URL Parser)
         function formatEmbedUrl(url) {
             let cleanUrl = url.trim();
-            
-            // YouTube Handler
             if (cleanUrl.includes('youtube.com/watch?v=')) {
                 let videoId = cleanUrl.split('v=')[1].split('&')[0];
                 return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
@@ -333,16 +410,13 @@
             if (cleanUrl.includes('youtube.com/embed/')) {
                 return cleanUrl;
             }
-
-            // Facebook Video Handler
             if (cleanUrl.includes('facebook.com/') && (cleanUrl.includes('/videos/') || cleanUrl.includes('/watch/'))) {
                 return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(cleanUrl)}&show_text=0&autoplay=1`;
             }
-
             return cleanUrl;
         }
 
-        // Zero-Delay Realtime Engine (Automatic Live Switcher with Universal Link Support)
+        // Realtime Configuration Listener (Firestore Synchronization)
         function listenToStreamSettings() {
             onSnapshot(doc(db, "stream_config", "current_match"), (docSnap) => {
                 if (docSnap.exists()) {
@@ -358,10 +432,8 @@
 
                     if (data.isLive && data.url) {
                         document.getElementById('stream-offline-notice').classList.add('hidden');
-                        
                         let targetUrl = data.url.toLowerCase().trim();
 
-                        // Checking if the link is a standard HLS/M3U8 video stream
                         if (targetUrl.includes('.m3u8') || targetUrl.includes('.mp4')) {
                             iframeElement.classList.add('hidden');
                             iframeElement.src = "";
@@ -369,17 +441,12 @@
 
                             player.src({ src: data.url, type: 'application/x-mpegURL' });
                             player.ready(function() {
-                                player.play().catch(() => {
-                                    console.log("Autoplay context waiting for hardware signal.");
-                                });
+                                player.play().catch(() => console.log("Hardware block waiting for manual interaction."));
                             });
                         } else {
-                            // Universal Link Fallback (YouTube, Facebook, BTV Web page, etc.)
                             player.pause();
                             videoWrapper.classList.add('hidden');
                             iframeElement.classList.remove('hidden');
-                            
-                            // Transform to embed url if it's YT/FB, otherwise use directly
                             iframeElement.src = formatEmbedUrl(data.url);
                         }
                     } else {
@@ -393,7 +460,7 @@
             });
         }
 
-        // Premium Instant Complaint Delivery Subsystem
+        // Complaint Registry Engine
         window.submitComplaint = function(e) {
             e.preventDefault();
             const text = document.getElementById('complaint-text').value;
@@ -404,17 +471,17 @@
                 message: text,
                 timestamp: new Date().toISOString()
             }).then(() => {
-                statusDiv.className = "mt-4 text-xs text-center text-emerald-400 block";
-                statusDiv.innerText = "✓ কমপ্লেনটি সফলভাবে অ্যাডমিন ডেস্কে পাঠানো হয়েছে।";
+                statusDiv.className = "mt-4 text-xs text-center text-emerald-400 block bg-emerald-500/10 py-2.5 rounded-xl border border-emerald-500/20";
+                statusDiv.innerText = "✓ কমপ্লেনটি সফলভাবে অ্যাডমিন ডেস্কে পাঠানো হয়েছে।";
                 document.getElementById('complaint-text').value = "";
                 setTimeout(() => statusDiv.classList.add('hidden'), 5000);
             }).catch(() => {
-                statusDiv.className = "mt-4 text-xs text-center text-red-500 block";
-                statusDiv.innerText = "✕ রিপোর্ট পাঠাতে সমস্যা হয়েছে। ডাটাবেজ চেক করুন।";
+                statusDiv.className = "mt-4 text-xs text-center text-red-500 block bg-red-500/10 py-2.5 rounded-xl border border-red-500/20";
+                statusDiv.innerText = "✕ রিপোর্ট পাঠাতে সমস্যা হয়েছে। ডাটাবেজ চেক করুন।";
             });
         }
 
-        // Hardcoded Master Admin Validator System
+        // Master Verification Mechanism
         window.verifyAdminLogin = function() {
             const id = document.getElementById('admin-id-input').value;
             const pass = document.getElementById('admin-pass-input').value;
@@ -422,13 +489,14 @@
             if(id === MASTER_ADMIN_ID && pass === MASTER_ADMIN_PASS) {
                 toggleModal('admin-login-modal');
                 document.getElementById('admin-panel').classList.remove('hidden');
+                document.getElementById('admin-panel').scrollIntoView({ behavior: 'smooth' });
                 loadAdminData();
             } else {
-                alert('অ্যাক্সেস ডিনাইড: অ্যাডমিন আইডি অথবা পাসওয়ার্ড ভুল!');
+                alert('অ্যাক্সেস ডিনাইড: অ্যাডমিন আইডি অথবা পাসওয়ার্ড ভুল!');
             }
         }
 
-        // Admin Stream Remote Controller
+        // Remote Server Synchronization
         window.updateStreamSettings = function() {
             const title = document.getElementById('admin-match-title').value;
             const url = document.getElementById('admin-stream-url').value;
@@ -438,24 +506,24 @@
                 title: title,
                 url: url,
                 isLive: isLive
-            }).then(() => alert('সার্ভার আপডেট সফল! সকল একটিভ গ্রাহকদের স্ক্রিনে ম্যাচ চালু হয়েছে।'))
+            }).then(() => alert('সার্ভার আপডেট সফল! সকল গ্রাহকদের স্ক্রিনে ম্যাচ আপডেট হয়েছে।'))
               .catch(err => alert('Firestore write block: ' + err.message));
         }
 
-        // Central Control Telemetry Data Streamer
+        // Central Telemetry Pipeline
         function loadAdminData() {
             onSnapshot(collection(db, "complaints"), (querySnapshot) => {
                 const listContainer = document.getElementById('admin-complaints-list');
                 listContainer.innerHTML = "";
                 if(querySnapshot.empty) {
-                    listContainer.innerHTML = `<p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>`;
+                    listContainer.innerHTML = `<p class="text-gray-600 italic">কোনো রিপোর্ট ডেটা পাওয়া যায়নি।</p>`;
                     return;
                 }
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     const item = document.createElement('div');
-                    item.className = "bg-gray-900 p-2.5 rounded-xl border border-gray-800 mb-2";
-                    item.innerHTML = `<span class="text-amber-500 font-bold">${data.user}:</span> <p class="text-gray-300 mt-0.5 text-xs">${data.message}</p>`;
+                    item.className = "bg-gray-900/80 p-3 rounded-xl border border-gray-800 mb-2";
+                    item.innerHTML = `<span class="text-amber-500 font-bold block mb-1 text-[11px]">${data.user}:</span> <p class="text-gray-300 text-xs leading-relaxed">${data.message}</p>`;
                     listContainer.appendChild(item);
                 });
             });
@@ -465,7 +533,7 @@
                 userList.innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     const p = document.createElement('p');
-                    p.className = "py-0.5 border-b border-gray-900 text-gray-400";
+                    p.className = "py-1 border-b border-gray-900 text-gray-400";
                     p.innerText = `» ${doc.data().email}`;
                     userList.appendChild(p);
                 });
